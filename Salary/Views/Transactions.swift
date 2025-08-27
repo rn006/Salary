@@ -27,7 +27,7 @@ struct transactionsView: View {
           greenText(text: String(format: "%.3f", transaction.amount))
           detailsText(text: transaction.currency)
           Spacer()
-          greenText(text: "GreenStatus")
+          greenText(text: "Success")
         }
         
         HStack{
