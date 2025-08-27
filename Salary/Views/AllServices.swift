@@ -7,27 +7,26 @@
 
 import SwiftUI
 
-struct allServicesView: View {
+struct AllServicesView: View {
   var body: some View {
     NavigationStack{
       VStack{
-        topView(text: "All Services")
-          .frame(alignment: .top)
-        iconsView()
+        TopView(text: "All Services")
+        IconsView()
       }
       .frame(maxHeight: .infinity, alignment: .top)
     }
   }
 }
 
-struct topView: View {
+struct TopView: View {
   var text: String
   var body: some View {
     ZStack {
-      titles(text: text)
+      TitlesView(text: text)
         .multilineTextAlignment(.center)
       HStack {
-        backArrow()
+        BackArrowView()
         Spacer()
       }
     }
@@ -35,52 +34,43 @@ struct topView: View {
   }
 }
 
-struct iconsView: View {
-  let columns = [
-    GridItem(.flexible(), alignment: .center),
-    GridItem(.flexible(), alignment: .center),
-    GridItem(.flexible(), alignment: .center)
+struct IconsView: View {
+  private static let columns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .center), count: 3)
+  
+  let icons: [(systemName: String, text: String, isNavigation: Bool)] = [
+    ("plus.circle.fill", "Add Money", false),
+    ("arrow.up", "Withdraw", false),
+    ("arrow.right.arrow.left", "Send Money", false),
+    ("questionmark", "eFawateercom", false),
+    ("questionmark", "Umniah", false),
+    ("heart.circle.fill", "Insurance", false),
+    ("questionmark", "Loan", false),
+    ("dollarsign.circle.fill", "Salary", true),
+    ("percent", "eVouchers", false),
+    ("questionmark", "Donations", false),
+    ("qrcode", "Scan QR", false)
   ]
+  
   var body: some View {
-    LazyVGrid(columns: columns, spacing: 30) {
+    LazyVGrid(columns: IconsView.columns, spacing: 30) {
       
-      icon(systemName: "plus.circle.fill", text: "Add Money")
-      
-      icon(systemName: "arrow.up", text: "Withdraw")
-      
-      icon(systemName: "arrow.right.arrow.left", text: "Send Money")
-      
-      icon(systemName: "questionmark", text: "eFawateercom")
-      
-      icon(systemName: "questionmark",text: "Umniah")
-      
-      icon(systemName: "heart.circle.fill",text: "Insurance")
-      
-      icon(systemName: "questionmark", text: "Loan")
-      
-      NavigationLink(destination: salaryView()){
-        icon(systemName: "dollarsign.circle.fill", text:" Salary")
+      ForEach(icons, id: \.text) { item in
+        if item.isNavigation {
+          NavigationLink(destination: SalaryView()) {
+            createIcon(systemName: item.systemName, text: item.text)
+          }
+          .buttonStyle(.plain)
+        } else {
+          createIcon(systemName: item.systemName, text: item.text)
+        }
       }
-      .buttonStyle(.plain)
-      
-      icon(systemName: "percent", text: "eVouchers")
-      
-      icon(systemName: "questionmark", text: "Donations")
-      
-      icon(systemName: "qrcode", text: "Scan QR")
       
     }
     .padding(24)
   }
   
-  private func icon(systemName: String, text: String) -> some View {
-    VStack {
-      circleView(systemName: systemName, width: 60, height: 60)
-      iconText(text: text)
-    }
-  }
 }
 
 #Preview {
-  allServicesView()
+  AllServicesView()
 }

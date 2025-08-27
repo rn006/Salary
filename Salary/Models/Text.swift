@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct titles: View {
+struct TitlesView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -19,7 +19,7 @@ struct titles: View {
 }
 
 
-struct iconText: View {
+struct IconTextView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -30,7 +30,7 @@ struct iconText: View {
 }
 
 //for amount buttons + less opacity text, do opacity + color in main code
-struct detailsText: View {
+struct DetailsTextView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -39,7 +39,7 @@ struct detailsText: View {
   }
 }
 
-struct detailsSB: View {
+struct DetailsSBView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -48,7 +48,7 @@ struct detailsSB: View {
   }
 }
 
-struct buttonText: View {
+struct ButtonTextView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -58,7 +58,7 @@ struct buttonText: View {
   }
 }
 
-struct unselectedButtonText: View {
+struct UnselectedButtonTextView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -68,7 +68,7 @@ struct unselectedButtonText: View {
   }
 }
 
-struct kanitLight: View {
+struct KanitLightView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -77,7 +77,7 @@ struct kanitLight: View {
   }
 }
 
-struct greenText: View {
+struct GreenTextView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -87,15 +87,15 @@ struct greenText: View {
   }
 }
 
-func details(text1: String, text2: String) -> some View {
+func showDetails(text1: String, text2: String) -> some View {
   HStack {
-    detailsText(text: text1).opacity(0.3)
+    DetailsTextView(text: text1).opacity(0.3)
     Spacer()
-    detailsSB(text: text2)
+    DetailsSBView(text: text2)
   }
 }
 
-struct optionButtonText: View {
+struct OptionButtonTextView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -104,7 +104,7 @@ struct optionButtonText: View {
   }
 }
 
-struct footnoteText: View {
+struct FootnoteTextView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -113,12 +113,12 @@ struct footnoteText: View {
   }
 }
 
-struct textPreviews: PreviewProvider {
+struct TextPreviewsView: PreviewProvider {
   static var previews: some View {
     VStack {
-      titles(text: "All Services")
-      iconText(text: "icon")
-      detailsText(text: "details")
+      TitlesView(text: "All Services")
+      IconTextView(text: "icon")
+      DetailsTextView(text: "details")
     }
     .padding()
   }

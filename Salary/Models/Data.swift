@@ -38,5 +38,13 @@ func getTime() -> String {
     return formatter.string(from: Date())
 }
 
+extension Double {
+  func asCurrency() -> String {
+    self.formatted(
+      .number
+      .precision(.fractionLength(3))
+    )
+  }
+}
 
 

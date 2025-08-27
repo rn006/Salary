@@ -7,34 +7,27 @@
 
 import SwiftUI
 
-struct topWithdrawalView: View {
-  @Environment(\.dismiss) var dismiss
+struct TopWithdrawalView: View {
   @Binding var transactions: [Transaction]
   var body: some View {
     
     NavigationStack{
-      withdrawalView(transactions: $transactions)
-    }
-    
-    //Back Button
-    .navigationBarBackButtonHidden(true)
-    .toolbar {
-      ToolbarItem(placement: .navigationBarLeading) {
-        Button(action: {
-          dismiss()
-        }) {
-          backArrow()
+      WithdrawalView(transactions: $transactions)
+      
+      //Back Button
+        .toolbar {
+          ToolbarItem(placement: .topBarLeading) {
+            BackArrowView()
+          }
+          ToolbarItem(placement: .principal){
+            TitlesView(text: "Salary")
+          }
         }
-      }
-      ToolbarItem(placement: .principal){
-        titles(text: "Salary")
-      }
     }
-    
   }
 }
 
-struct withdrawalView: View {
+struct WithdrawalView: View {
   @State private var selectedAmount: Double? = nil
   @State private var isDisabled: Bool = true
   @State private var isShowing: Bool = false
@@ -45,17 +38,17 @@ struct withdrawalView: View {
       
       HStack {
         
-        circleView(systemName: "bag.fill", width: 40, height: 40)
+        CircleView(systemName: "bag.fill", width: 40, height: 40)
         
         VStack{
           
           HStack{
-            detailsText(text: "Remaining Eligible Amount").opacity(0.3)
+            DetailsTextView(text: "Remaining Eligible Amount").opacity(0.3)
             Spacer()
           }
           
           HStack {
-            iconText(text: String(data.remainingEligAmount) + " JOD")
+            IconTextView(text: String(data.remainingEligAmount) + " JOD")
             Spacer()
           }
           
@@ -64,7 +57,7 @@ struct withdrawalView: View {
         
       }
       .overlay(
-        strokeRectView()
+        StrokeRectView()
           .frame(width: 382, height: 76)
       )
       
@@ -77,14 +70,14 @@ struct withdrawalView: View {
       .padding()
       
       HStack{
-        detailsText(text: "Amount")
+        DetailsTextView(text: "Amount")
         Spacer()
       }
       
       HStack{
-        iconText(text: String(Data.amountToWithdraw))
+        IconTextView(text: String(Data.amountToWithdraw))
         Spacer()
-        iconText(text: "JOD")
+        IconTextView(text: "JOD")
       }
       .padding(16)
       .background(
@@ -93,7 +86,7 @@ struct withdrawalView: View {
           .frame(width: 382)
       )
       
-      detailsText(text: "Maximum is the remaining eligibility amount and must be greater than or equal to the minimum withdrawal limit.").opacity(0.3)
+      DetailsTextView(text: "Maximum is the remaining eligibility amount and must be greater than or equal to the minimum withdrawal limit.").opacity(0.3)
       
     }
     .padding()
@@ -104,16 +97,16 @@ struct withdrawalView: View {
       isShowing.toggle()
     } label: {
       if selectedAmount == nil {
-        buttonLabel(text: "Calculate", color: "HintText")
+        ButtonLabelView(text: "Calculate", color: "HintText")
       } else {
-        buttonLabel(text: "Calculate", color: "AccentColor")
+        ButtonLabelView(text: "Calculate", color: "AccentColor")
       }
     }.frame(alignment: .bottom)
       .padding()
       .disabled(selectedAmount == nil)
     
       .sheet(isPresented: $isShowing){
-        calculateResultView(isShowing: $isShowing, transactions: $transactions)
+        CalculateResultView(isShowing: $isShowing, transactions: $transactions)
           .presentationDetents([.height(355)])
           .presentationCornerRadius(30)
       }
@@ -125,9 +118,9 @@ struct withdrawalView: View {
       Data.amountToWithdraw = amount
     } label: {
       if selectedAmount == amount {
-        selectedAmountButton(text: label)
+        SelectedAmountButtonView(text: label)
       } else {
-        unselectedAmountButton(text: label)
+        UnselectedAmountButtonView(text: label)
       }
     }
   }

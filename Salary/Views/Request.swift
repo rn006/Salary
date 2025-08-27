@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct requestView: View {
+struct RequestView: View {
   @Binding var isHidden: Bool
   @Binding var transactions: [Transaction]
   let data = Data()
@@ -26,22 +26,22 @@ struct requestView: View {
           Spacer()
         }
         
-        details(text1: "Earned Wage Percentage", text2: "5%")
+        showDetails(text1: "Earned Wage Percentage", text2: "5%")
         
-        details(text1: "Maximum Eligible Amount", text2: String(data.maxEligAmount) + " JOD" )
+        showDetails(text1: "Maximum Eligible Amount", text2: String(data.maxEligAmount) + " JOD" )
         
-        details(text1: "Remaning Eligible Amount", text2: String(data.remainingEligAmount) + " JOD")
+        showDetails(text1: "Remaning Eligible Amount", text2: String(data.remainingEligAmount) + " JOD")
         
-        details(text1: "Remaining Number of Withdrawals", text2: String(data.remainingWithdrawalNum))
+        showDetails(text1: "Remaining Number of Withdrawals", text2: String(data.remainingWithdrawalNum))
         
-        details(text1: "Next Cycle Start Date", text2: "15/08/2025")
+        showDetails(text1: "Next Cycle Start Date", text2: "15/08/2025")
         
       }
       Spacer()
       
       //Request Withdrawal Button
-      NavigationLink(destination: topWithdrawalView(transactions: $transactions)){
-        buttonLabel(text: "Request Withdrawal", color: "AccentColor")
+      NavigationLink(destination: TopWithdrawalView(transactions: $transactions)){
+        ButtonLabelView(text: "Request Withdrawal", color: "AccentColor")
       }
     }
     .padding()
@@ -53,5 +53,5 @@ struct requestView: View {
 #Preview {
   @Previewable @State var isHidden: Bool = false
   @Previewable @State var transactions: [Transaction] = []
-  requestView(isHidden: $isHidden, transactions: $transactions)
+  RequestView(isHidden: $isHidden, transactions: $transactions)
 }

@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct circleView: View {
+struct CircleView: View {
   var systemName: String
   var width: CGFloat
   var height: CGFloat
@@ -22,53 +22,53 @@ struct circleView: View {
   }
 }
 
-struct selectedRoundedRectView: View {
+struct SelectedRoundedRectView: View {
   var text: String
   var body: some View {
-    buttonText(text: text)
-      .frame(width: 186, height: 52)
+    ButtonTextView(text: text)
+      .frame(width: 186, height: Constants.buttonTextFrameHeight)
       .background(
-        RoundedRectangle(cornerRadius: 8)
+        RoundedRectangle(cornerRadius: Constants.roundedRectCornerRadiusSmall)
           .fill(.accent)
       )
   }
 }
 
-struct unselectedRoundedRectView: View {
+struct UnselectedRoundedRectView: View {
   var text: String
   var body: some View {
-    unselectedButtonText(text: text)
-      .frame(width: 186, height: 52)
+    UnselectedButtonTextView(text: text)
+      .frame(width: 186, height: Constants.buttonTextFrameHeight)
       .overlay(
-        RoundedRectangle(cornerRadius: 8)
+        RoundedRectangle(cornerRadius: Constants.roundedRectCornerRadiusSmall)
           .stroke(lineWidth: 1)
           .foregroundColor(Color("IconBackground"))
       )
   }
 }
 
-struct backArrow: View {
+struct BackArrowView: View {
   var body: some View {
     Image(systemName:"arrow.left")
       .foregroundColor(.accentColor)
   }
 }
 
-struct unselectedAmountButton: View {
+struct UnselectedAmountButtonView: View {
   var text: String
   var body: some View {
-    detailsText(text: text)
+    DetailsTextView(text: text)
       .padding(10)
       .frame(width: 85, height: 37)
       .overlay(
-        RoundedRectangle(cornerRadius: 1000)
+        RoundedRectangle(cornerRadius: Constants.roundedRectCornerRadiusLarge)
           .stroke(lineWidth: 1)
           .foregroundColor(Color("IconBackground"))
       )
   }
 }
 
-struct selectedAmountButton: View {
+struct SelectedAmountButtonView: View {
   var text: String
   var body: some View {
     Text(text)
@@ -77,16 +77,16 @@ struct selectedAmountButton: View {
       .padding(10)
       .frame(width: 85, height: 37)
       .background(
-        RoundedRectangle(cornerRadius: 1000)
+        RoundedRectangle(cornerRadius: Constants.roundedRectCornerRadiusLarge)
           .fill(.accent)
           .foregroundColor(Color("IconBackground"))
       )
   }
 }
 
-struct strokeRectView: View {
+struct StrokeRectView: View {
   var body: some View {
-    RoundedRectangle(cornerRadius: 12)
+    RoundedRectangle(cornerRadius: Constants.roundedRectCornerRadiusMedium)
       .stroke(lineWidth: 1)
       .foregroundColor(Color("IconBackground"))
   }
@@ -101,7 +101,7 @@ struct Line: Shape {
   }
 }
 
-struct dashedLine: View {
+struct DashedLineView: View {
   var body: some View {
     Line()
       .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
@@ -110,22 +110,22 @@ struct dashedLine: View {
   }
 }
 
-struct buttonLabel: View {
+struct ButtonLabelView: View {
   var text: String
   var color: String
   var body: some View {
-    buttonText(text: text)
-      .frame(maxWidth: .infinity, maxHeight: 52)
+    ButtonTextView(text: text)
+      .frame(maxWidth: .infinity, maxHeight: Constants.buttonTextFrameHeight)
       .background(
-        RoundedRectangle(cornerRadius: 8)
+        RoundedRectangle(cornerRadius: Constants.roundedRectCornerRadiusSmall)
           .fill(Color(color))
       )
   }
 }
 
-struct optionButton: View {
-  let option: calculateResultView.Option
-  @Binding var selectedOption: calculateResultView.Option
+struct OptionButtonView: View {
+  let option: CalculateResultView.Option
+  @Binding var selectedOption: CalculateResultView.Option
   var text: String
   var body: some View {
     
@@ -135,22 +135,29 @@ struct optionButton: View {
       } label: {
         Image(systemName: selectedOption == option ? "checkmark.circle.fill" : "circle")
       }
-      optionButtonText(text: text)
+      OptionButtonTextView(text: text)
       Spacer()
     }
     
   }
 }
 
-struct shapesPreviews: PreviewProvider {
+func createIcon(systemName: String, text: String) -> some View {
+  VStack {
+    CircleView(systemName: systemName, width: 60, height: 60)
+    IconTextView(text: text)
+  }
+}
+
+struct ShapesPreviews: PreviewProvider {
   static var previews: some View {
     VStack {
-      circleView(systemName: "plus.circle.fill", width: 60, height: 60)
-      selectedRoundedRectView(text: "Request")
-      unselectedRoundedRectView(text: "History")
-      backArrow()
-      unselectedAmountButton(text: "10 JOD")
-      selectedAmountButton(text: "20 JOD")
+      CircleView(systemName: "plus.circle.fill", width: 60, height: 60)
+      SelectedRoundedRectView(text: "Request")
+      UnselectedRoundedRectView(text: "History")
+      BackArrowView()
+      UnselectedAmountButtonView(text: "10 JOD")
+      SelectedAmountButtonView(text: "20 JOD")
     }
     .padding()
   }

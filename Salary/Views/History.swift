@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct historyView: View {
+struct HistoryView: View {
   @Binding var isHidden: Bool
   @Binding var transactions: [Transaction]
   var body: some View {
     ScrollView{
       ForEach(transactions) { transaction in
-        transactionsView(isHidden: $isHidden, transaction: transaction)
+        TransactionsView(isHidden: $isHidden, transaction: transaction)
       }
     }
   }

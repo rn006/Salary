@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct calculateResultView: View {
+struct CalculateResultView: View {
   @Binding var isShowing: Bool
   @Binding var transactions: [Transaction]
   
@@ -49,37 +49,37 @@ struct calculateResultView: View {
         Spacer()
       }
       
-      dashedLine()
+      DashedLineView()
       
-      details(text1: "Fees", text2: String(format: "%.3f", data.fees) + " JOD")
+      showDetails(text1: "Fees", text2: data.fees.asCurrency() + " JOD")
       
       Spacer(minLength: 10)
       
-      details(text1: "Tax", text2: String(format: "%.3f", data.tax) + " JOD")
+      showDetails(text1: "Tax", text2: data.tax.asCurrency() + " JOD")
       
-      dashedLine()
+      DashedLineView()
       
       HStack{
         Text("Total Amount")
           .font(.kanitMed14)
           .opacity(0.3)
         Spacer()
-        detailsSB(text: String(format: "%.3f", totalAmount) +  " JOD")
+        DetailsSBView(text: totalAmount.asCurrency() +  " JOD")
       }.padding()
         .overlay(
-          strokeRectView()
+          StrokeRectView()
         )
       
       Spacer()
         .frame(height: 10)
       
-      optionButton(option: calculateResultView.Option.addFees, selectedOption: $option, text: "Add the fees on the total amount.")
+      OptionButtonView(option: CalculateResultView.Option.addFees, selectedOption: $option, text: "Add the fees on the total amount.")
       
       
       Spacer()
         .frame(height: 10)
       
-      optionButton(option: calculateResultView.Option.deductFees, selectedOption: $option, text: "Deduct it from the entered amount.")
+      OptionButtonView(option: CalculateResultView.Option.deductFees, selectedOption: $option, text: "Deduct it from the entered amount.")
       
       Spacer()
       
@@ -89,11 +89,11 @@ struct calculateResultView: View {
           Transaction(date:getDate(), amount: totalAmount, currency: "JOD", status: "Success", reference: "MT-3426FA145262A32651", time: getTime()), at: 0
         )
       } label: {
-        buttonLabel(text: "Request", color: "AccentColor")
+        ButtonLabelView(text: "Request", color: "AccentColor")
       }
       
       .sheet(isPresented: $isConfirmationShowing){
-        confirmationView()
+        ConfirmationView()
           .presentationDetents([.height(200)])
           .presentationCornerRadius(30)
       }

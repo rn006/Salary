@@ -7,33 +7,27 @@
 
 import SwiftUI
 
-struct salaryView: View {
-  @Environment(\.dismiss) var dismiss
+struct SalaryView: View {
   var body: some View {
     
     NavigationStack{
-      topViewSalary()
-    }
-    
-    //Back Button
-    .navigationBarBackButtonHidden(true)
-    .toolbar {
-      ToolbarItem(placement: .navigationBarLeading) {
-        Button(action: {
-          dismiss()
-        }) {
-          backArrow()
+      TopViewSalary()
+      
+      //Back Button
+        .toolbar {
+          ToolbarItem(placement: .topBarLeading) {
+            BackArrowView()
+          }
+          ToolbarItem(placement: .principal){
+            TitlesView(text: "Salary")
+          }
         }
-      }
-      ToolbarItem(placement: .principal){
-        titles(text: "Salary")
-      }
     }
     
   }
 }
 
-struct topViewSalary: View {
+struct TopViewSalary: View {
   @State var requestSelected: Bool = true
   @State var historySelected: Bool = false
   @State var isRequestPageHidden: Bool = false
@@ -53,9 +47,9 @@ struct topViewSalary: View {
           isHistoryPageHidden = true
         } label: {
           if requestSelected {
-            selectedRoundedRectView(text: "Request")
+            SelectedRoundedRectView(text: "Request")
           } else {
-            unselectedRoundedRectView(text: "Request")
+            UnselectedRoundedRectView(text: "Request")
           }
         }
         
@@ -67,9 +61,9 @@ struct topViewSalary: View {
           isRequestPageHidden = true
         } label: {
           if historySelected {
-            selectedRoundedRectView(text: "History")
+            SelectedRoundedRectView(text: "History")
           } else {
-            unselectedRoundedRectView(text: "History")
+            UnselectedRoundedRectView(text: "History")
           }
         }
         
@@ -77,12 +71,12 @@ struct topViewSalary: View {
       
       //Show/Hide Request and History Pages
       VStack {
-          if !isRequestPageHidden {
-            requestView(isHidden: $isRequestPageHidden, transactions: $transactions)
-          }
-          if !isHistoryPageHidden {
-            historyView(isHidden: $isHistoryPageHidden, transactions: $transactions)
-          }
+        if !isRequestPageHidden {
+          RequestView(isHidden: $isRequestPageHidden, transactions: $transactions)
+        }
+        if !isHistoryPageHidden {
+          HistoryView(isHidden: $isHistoryPageHidden, transactions: $transactions)
+        }
       }
       
     }
@@ -92,7 +86,8 @@ struct topViewSalary: View {
 
 
 
+
 #Preview {
-  salaryView()
+  SalaryView()
 }
 

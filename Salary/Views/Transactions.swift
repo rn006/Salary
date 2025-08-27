@@ -7,54 +7,45 @@
 
 import SwiftUI
 
-struct transactionsView: View {
+struct TransactionsView: View {
   @Binding var isHidden: Bool
   @State private var transactionShowing: Bool = false
   var transaction: Transaction
   var body: some View {
-    
-    Button{
-      transactionShowing.toggle()
-    } label: {
-      VStack(alignment: .leading, spacing: 8) {
-        HStack{
-          footnoteText(text: transaction.date)
-            .opacity(0.3)
-          Spacer()
+    if !isHidden {
+      Button{
+        transactionShowing.toggle()
+      } label: {
+        VStack(alignment: .leading, spacing: 8) {
+          HStack{
+            FootnoteTextView(text: transaction.date)
+              .opacity(0.3)
+            Spacer()
+          }
+          
+          HStack{
+            GreenTextView(text: transaction.amount.asCurrency())
+            DetailsTextView(text: transaction.currency)
+            Spacer()
+            GreenTextView(text: "Success")
+          }
+          
+          KanitLightView(text: "Reference Number")
+          
+          DetailsTextView(text: transaction.reference)
+          
+          KanitLightView(text: transaction.time)
+          
         }
-        
-        HStack{
-          greenText(text: String(format: "%.3f", transaction.amount))
-          detailsText(text: transaction.currency)
-          Spacer()
-          greenText(text: "Success")
-        }
-        
-        HStack{
-          kanitLight(text: "Reference Number")
-          Spacer()
-        }
-        
-        HStack{
-          detailsText(text: transaction.reference)
-          Spacer()
-        }
-        
-        HStack{
-          kanitLight(text: transaction.time)
-            
-          Spacer()
-        }
+        .frame(alignment: .topLeading)
+        .padding()
       }
-      .opacity(isHidden ? 0 : 1)
-      .frame(alignment: .topLeading)
-      .padding()
-    }
-    
-    .sheet(isPresented: $transactionShowing){
-      transactionDetailsView(transactionShowing: $transactionShowing, transaction: transaction)
-        .presentationDetents([.height(400)])
-        .presentationCornerRadius(30)
+      
+      .sheet(isPresented: $transactionShowing){
+        TransactionDetailsView(transactionShowing: $transactionShowing, transaction: transaction)
+          .presentationDetents([.medium])
+          .presentationCornerRadius(30)
+      }
     }
   }
 }

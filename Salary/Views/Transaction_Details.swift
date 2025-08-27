@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct transactionDetailsView: View {
+struct TransactionDetailsView: View {
   @Binding var transactionShowing: Bool
   var transaction: Transaction
   let data = Data()
@@ -28,7 +28,7 @@ struct transactionDetailsView: View {
       HStack{
         Image(systemName: "checkmark.circle.fill")
           .foregroundColor(Color("GreenStatus"))
-        footnoteText(text: transaction.status)
+        FootnoteTextView(text: transaction.status)
       }
       .padding(6)
       .background(
@@ -36,7 +36,7 @@ struct transactionDetailsView: View {
           .fill(Color("GrayLight"))
       )
       
-      Text(String(format: "%.3f", transaction.amount) + " JOD")
+      Text(transaction.amount.asCurrency() + " JOD")
         .font(.title)
         .bold()
       
@@ -46,22 +46,23 @@ struct transactionDetailsView: View {
           .foregroundColor(.accent)
         Spacer()
       }
-
-      details(text1: "Transaction ID", text2: transaction.reference)
-
-      dashedLine()
-
-      details(text1: "Date/Time", text2: "\(transaction.date), \(transaction.time)")
-    
-      details(text1: "Withdrawal Amount", text2: String(Data.amountToWithdraw) + " JOD")
-
-      details(text1: "Fees Deducted", text2: String(data.fees) + " JOD")
-
-      details(text1: "Tax", text2: String(data.tax) + " JOD")
-
-      details(text1: "Net Amount", text2: String(data.fees + data.tax + Data.amountToWithdraw))
-
-      details(text1: "Remaining Eligibility", text2: String(data.remainingEligAmount))
+      
+      showDetails(text1: "Transaction ID", text2: transaction.reference)
+      
+      DashedLineView()
+      
+      let details: [(label: String, value: String)] = [
+        ("Date/Time", "\(transaction.date), \(transaction.time)"),
+        ("Withdrawal Amount", "\(Data.amountToWithdraw) JOD"),
+        ("Fees Deducted", "\(data.fees) JOD"),
+        ("Tax", "\(data.tax) JOD"),
+        ("Net Amount", "\(data.fees + data.tax + Data.amountToWithdraw)"),
+        ("Remaining Eligibility", "\(data.remainingEligAmount)")
+      ]
+      
+      ForEach(details, id: \.label) { detail in
+        showDetails(text1: detail.label, text2: detail.value)
+      }
       
     }
     .padding()
